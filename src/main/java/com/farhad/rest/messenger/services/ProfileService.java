@@ -35,7 +35,7 @@ public class ProfileService {
 		return profile;
 	}
 	
-	public void removeProfile(Profile profile){
+	public void removeProfile(String profile){
 		profiles.remove(profile);
 	}
 }

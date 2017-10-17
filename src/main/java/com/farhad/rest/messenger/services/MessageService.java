@@ -1,7 +1,6 @@
 package com.farhad.rest.messenger.services;
 
 import java.util.*;
-
 import com.farhad.rest.messenger.database.DatabaseClass;
 import com.farhad.rest.messenger.model.Message;
 
@@ -18,6 +17,24 @@ public class MessageService {
 
 	public List<Message> getMessages() {
 		return new ArrayList<Message>(messages.values());
+	}
+	
+	public List<Message> getMessagesYear(int year){
+		ArrayList<Message> messagesForYear = new ArrayList<>();
+		Calendar cal = Calendar.getInstance();
+		for(Message message: messages.values()){
+			cal.setTime(message.getDate());
+			if(cal.get(Calendar.YEAR) == year){
+				messagesForYear.add(message);
+			}
+		}
+		return messagesForYear;
+	}
+	
+	public List<Message> getAllMessagesPaginated(int start, int size){
+		ArrayList<Message> list = new ArrayList<Message>(messages.values());
+		if(start + size > list.size()) return new ArrayList<Message>();
+		return list.subList(start, start + size);
 	}
 	
 	public Message getMessage(long id){

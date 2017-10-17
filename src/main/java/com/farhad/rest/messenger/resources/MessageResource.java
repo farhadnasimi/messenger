@@ -9,6 +9,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -23,8 +24,14 @@ public class MessageResource {
 	MessageService ms = new MessageService();
 	
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Message> getMessage(){
+	public List<Message> getMessage(@QueryParam("year") int year,
+			@QueryParam("start") int start, @QueryParam("size") int size) {
+		if (year > 0) {
+			return ms.getMessagesYear(year);
+		}
+		if (start >= 0 && size >= 0) {
+			return ms.getAllMessagesPaginated(start, size);
+		}
 		return ms.getMessages();
 	}
 	
